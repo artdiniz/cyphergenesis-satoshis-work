@@ -3,42 +3,53 @@
 import { File } from "@/components/ui/File"
 import { useEffect, useState } from "react"
 
+const FILE_NAMES = [
+  "email_threads.json",
+  "emails.json",
+  "forum_posts.json",
+  "forum_threads.json",
+  "quote_categories.json",
+  "quotes.json",
+  "bitcoin_whitepaper.md"
+]
+
+
 export default function Page() {
-
-  const fileNames = [
-    "email_threads.json",
-    "emails.json",
-    "forum_posts.json",
-    "forum_threads.json",
-    "quote_categories.json",
-    "quotes.json",
-  ]
-
   const [files, setFiles] = useState([] as {
     path: string,
     content: string
   }[])
 
+
   useEffect(() => {
     (async () => {
       const newFiles = []
-      for(const name of fileNames) {
-        const filePath = `/__files/${name}`
-        const file = {
-          path: name,
-          content: await (await fetch(filePath)).text()
+      for(const name of FILE_NAMES) {
+        const filePath = `/cyphergenesis-satoshis-work/__files/${name}`
+        try {
+          const file = {
+            path: name,
+            content: await (await fetch(filePath)).text()
+          }
+          newFiles.push(file)
+        } catch(error) {
+          console.error(error)
+          const errorFile = {
+            path: name,
+            content: `[ERROR] Loading failed. Refresh the page!\n\n${error?.toString()}`
+          }
+          newFiles.push(errorFile)
         }
-        newFiles.push(file)
       }
       setFiles(newFiles)
     })()
    
-  }, [fileNames])
+  }, [])
 
   return (
     <>
       <header className="heading">
-        <h1>Satoshi Nakamoto's Work</h1>
+        <h1>CYPHER•GENESIS | Satoshi Nakamoto's work</h1>
       </header>
       <div className="terminal">
           {!files.length && (
