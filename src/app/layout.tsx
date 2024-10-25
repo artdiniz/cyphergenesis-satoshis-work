@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>$CYPHER | Satoshi Nakamoto's work</title>
+        <title>CYPHER•GENESIS | Satoshi Nakamoto's work</title>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
